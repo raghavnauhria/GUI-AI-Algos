@@ -4,18 +4,18 @@ class dfid(AlgorithmBase):
         # init
         count = -1
         previousCount = 0
-        depthBound = 1
+        depthBound = 0
         start = self.start_nodes[0]
         goal = self.goal_nodes[0]
 
         while (previousCount != count) and (self.found_goal == False):
             previousCount = count
+            depthBound = depthBound + 1
             self.show_info('For depth bound: %s' %depthBound)
             count = self.dbdfs(start, goal, depthBound)
-            depthBound = depthBound + 1
 
         if self.found_goal:
-            self.show_info('Path found')
+            self.show_info('Path found at Depth %s' % depthBound)
         else:
             self.show_info('No path available')
 
