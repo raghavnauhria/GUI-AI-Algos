@@ -4,13 +4,14 @@ class dfid(AlgorithmBase):
         # init
         count = -1
         previousCount = 0
-        depthBound = 0
+        depthBound = 1
         start = self.start_nodes[0]
         goal = self.goal_nodes[0]
 
         while (previousCount != count) and (self.found_goal == False):
             previousCount = count
-            count = dbdfs(start, goal, depthBound)
+            self.show_info('Depth bound: %s' %depthBound)
+            count = self.dbdfs(start, goal, depthBound)
             depthBound = depthBound + 1
 
         if self.found_goal:
@@ -24,8 +25,10 @@ class dfid(AlgorithmBase):
         # init
         queue,visited=self.get_list('open'),self.get_list('closed')
         queue.append(start)
+        depthQueue = [0]
+
         count = 0
-        depth = 1
+        self.show_info('Starting DBDFS')
         
         # kernel
         while queue:
@@ -33,6 +36,7 @@ class dfid(AlgorithmBase):
 
             node = queue.pop(0)
             visited.append(node)
+            nodeDepth = depthQueue.pop(0)
 
             # check for GOAL node
             if node == goal:
@@ -41,19 +45,20 @@ class dfid(AlgorithmBase):
                 break
             
             # iterate over children
-            if depth < depthBound:
+            if nodeDepth < depthBound:
                 index = 0
                 for neighbor in self.neighbors(node):
                     if neighbor not in visited and neighbor not in queue:
                         self.set_parent(neighbor,node)
                         queue.insert(index, neighbor)
+                        depthQueue.insert(index, nodeDepth+1)
                         index = index + 1
 
-                depth = depth + 1
                 count = count + index
         
             self.alg_iteration_end()
 
         queue.clear()
         visited.clear()
+        depthQueue.clear()
         return count
