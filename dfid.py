@@ -10,13 +10,12 @@ class dfid(AlgorithmBase):
 
         while (previousCount != count) and (self.found_goal == False):
             previousCount = count
-            self.show_info('Depth bound: %s' %depthBound)
+            self.show_info('For depth bound: %s' %depthBound)
             count = self.dbdfs(start, goal, depthBound)
             depthBound = depthBound + 1
 
         if self.found_goal:
-            path=self.gen_path()
-            self.show_path(path)
+            self.show_info('Path found')
         else:
             self.show_info('No path available')
 
@@ -28,7 +27,7 @@ class dfid(AlgorithmBase):
         depthQueue = [0]
 
         count = 0
-        self.show_info('Starting DBDFS')
+        self.show_info('Starting DB-DFS')
         
         # kernel
         while queue:
@@ -57,6 +56,12 @@ class dfid(AlgorithmBase):
                 count = count + index
         
             self.alg_iteration_end()
+
+        if self.found_goal:
+            path=self.gen_path()
+            self.show_path(path)
+        else:
+            self.show_info('No path available upto Depth %s' %depthBound)
 
         queue.clear()
         visited.clear()
