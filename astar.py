@@ -38,7 +38,8 @@ class astar(AlgorithmBase):
             self.alg_iteration_end()
 
         if self.found_goal:
-            self.genpath()
+            path=self.gen_path()
+            self.show_path(path)
         else:
             self.show_info('No path available')
         self.execute_end()
