@@ -42,4 +42,3 @@ class astar(AlgorithmBase):
             self.show_path(path)
         else:
             self.show_info('No path available')
-        self.execute_end()
