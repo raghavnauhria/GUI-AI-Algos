@@ -2,7 +2,7 @@ import numpy as np
 
 class dfid(AlgorithmBase):
 
-    WEIGHT = 1.5
+    WEIGHT = 0.5
 
     def execute(self):
         # init
@@ -31,8 +31,7 @@ class dfid(AlgorithmBase):
         g[start]=0
         f={start:self.heuristic(start,goal)*self.WEIGHT}
         
-        nextDepth = depthBound+1
-        count = 0
+        nextDepth = depthBound
         
         self.show_info('Starting DB-DFS')
         
@@ -47,7 +46,7 @@ class dfid(AlgorithmBase):
             if nodeIndex == -2:
                 nextNode = min(queue, key=lambda x: f[x])
                 nextDepth = f[nextNode]
-                self.show_info('Next Depth will be: {}'.format(nextDepth))
+                # self.show_info('Next Depth will be: {}'.format(nextDepth))
                 self.alg_iteration_end()
                 break
             
@@ -86,11 +85,11 @@ class dfid(AlgorithmBase):
         if self.found_goal:
             path=self.gen_path()
             self.show_path(path)
-        else:
-            self.show_info('No path available upto Depth {}'.format(depthBound))
+        # else:
+        #     self.show_info('No path available upto Depth {}'.format(depthBound))
         
-        for i in queue:
-            self.show_info('Node: g: {}, h: {}, f: {}'.format(g[i], self.heuristic(neighbor,goal)*self.WEIGHT, f[i]))
+        # for i in queue:
+        #     self.show_info('Node: g: {}, h: {}, f: {}'.format(g[i], self.heuristic(neighbor,goal)*self.WEIGHT, f[i]))
 
         queue.clear()
         visited.clear()
