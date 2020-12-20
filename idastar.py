@@ -2,12 +2,14 @@ import numpy as np
 
 class dfid(AlgorithmBase):
 
+    WEIGHT = 1.5
+
     def execute(self):
         # init
         start = self.start_nodes[0]
         goal = self.goal_nodes[0]
         depthBound = 0
-        cheapestUnexpanded = self.heuristic(start, goal)*2    # f-value of start node
+        cheapestUnexpanded = self.heuristic(start, goal)*self.WEIGHT      # f-value of start node
 
         while (self.found_goal == False):
             depthBound = cheapestUnexpanded
@@ -27,7 +29,7 @@ class dfid(AlgorithmBase):
         
         g={i:np.inf  for i in self.get_nodes()}
         g[start]=0
-        f={start:self.heuristic(start,goal)*2}
+        f={start:self.heuristic(start,goal)*self.WEIGHT}
         
         nextDepth = depthBound+1
         count = 0
@@ -71,7 +73,7 @@ class dfid(AlgorithmBase):
                         g[neighbor] = t_g
                     
                     # update f-val
-                    f[neighbor] = g[neighbor] + self.heuristic(neighbor,goal)*2
+                    f[neighbor] = g[neighbor] + self.heuristic(neighbor,goal)*self.WEIGHT
 
                     # add to OPEN
                     queue.insert(index, neighbor)
