@@ -85,9 +85,11 @@ class dfid(AlgorithmBase):
             path=self.gen_path()
             self.show_path(path)
         else:
-            self.show_info('No path available upto Depth %s' %depthBound)
+            self.show_info('No path available upto Depth {}'.format(depthBound))
+        
+        for i in queue:
+            self.show_info('Node: g: {}, h: {}, f: {}'.format(g[i], self.heuristic(neighbor,goal)*self.WEIGHT, f[i]))
 
         queue.clear()
         visited.clear()
         return nextDepth
-                        
