@@ -4,16 +4,12 @@ class dfid(AlgorithmBase):
 
     def execute(self):
         # init
-        # count = -1
-        # previousCount = 0
-        depthBound = 0
-        cheapestUnexpanded = self.heuristic(start, goal)    # f-value of start node
-
         start = self.start_nodes[0]
         goal = self.goal_nodes[0]
+        depthBound = 0
+        cheapestUnexpanded = self.heuristic(start, goal)*2    # f-value of start node
 
         while (self.found_goal == False):
-            # previousCount = count
             depthBound = cheapestUnexpanded
             self.show_info('For depth bound: %s' %depthBound)
             cheapestUnexpanded = self.dbdfs(start, goal, depthBound)
@@ -31,7 +27,7 @@ class dfid(AlgorithmBase):
         
         g={i:np.inf  for i in self.get_nodes()}
         g[start]=0
-        f={start:self.heuristic(start,goal)}
+        f={start:self.heuristic(start,goal)*2}
         
         nextDepth = depthBound
         count = 0
@@ -74,7 +70,7 @@ class dfid(AlgorithmBase):
                         g[neighbor] = t_g
                     
                     # update f-val
-                    f[neighbor] = g[neighbor] + self.heuristic(neighbor,goal)
+                    f[neighbor] = g[neighbor] + self.heuristic(neighbor,goal)*2
 
                     # add to OPEN
                     queue.insert(index, neighbor)
