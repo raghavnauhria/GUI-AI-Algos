@@ -41,11 +41,13 @@ class dfid(AlgorithmBase):
             self.alg_iteration_start()
 
             # find first node in OPEN with f-value under the bound
-            nodeIndex = next((index for index, node in enumerate(queue) if f[node] <= depthBound), -1)
+            nodeIndex = next((index for index, node in enumerate(queue) if f[node] <= depthBound), -2)
             
             # if not found, update depthBound and break
-            if nodeIndex == -1:
-                nextDepth = min(queue, key=lambda x: f[x])
+            if nodeIndex == -2:
+                nextNode = min(queue, key=lambda x: f[x])
+                nextDepth = f[nextNode]
+                self.show_info('Next Depth will be: {}'.format(nextDepth))
                 self.alg_iteration_end()
                 break
             
