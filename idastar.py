@@ -29,7 +29,7 @@ class dfid(AlgorithmBase):
         g[start]=0
         f={start:self.heuristic(start,goal)*2}
         
-        nextDepth = depthBound
+        nextDepth = depthBound+1
         count = 0
         
         self.show_info('Starting DB-DFS')
@@ -41,9 +41,10 @@ class dfid(AlgorithmBase):
             # find first node in OPEN with f-value under the bound
             nodeIndex = next((index for index, node in enumerate(queue) if f[node] <= depthBound), -1)
             
-            # if not found, update f-val and break
+            # if not found, update depthBound and break
             if nodeIndex == -1:
                 nextDepth = min(queue, key=lambda x: f[x])
+                self.alg_iteration_end()
                 break
             
             node = queue.pop(nodeIndex)
