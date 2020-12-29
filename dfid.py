@@ -1,6 +1,15 @@
 class dfid(AlgorithmBase):
 
     def execute(self):
+        """
+        simulates Depth First Iterative Deepening
+
+        Function to simulate Depth Bounded Depth First Search is called recursively with increasing depth bound
+        
+        Assumptions:
+            Works for a single start node and single goal node
+            Edges weights are not considered
+        """
         # init
         count = -1
         previousCount = 0
@@ -8,6 +17,7 @@ class dfid(AlgorithmBase):
         start = self.start_nodes[0]
         goal = self.goal_nodes[0]
 
+        # repeat with incrementing Depth until either Goal is found OR no new node is added
         while (previousCount != count) and (self.found_goal == False):
             previousCount = count
             depthBound = depthBound + 1
@@ -21,6 +31,24 @@ class dfid(AlgorithmBase):
 
     
     def dbdfs(self, start, goal, depthBound):
+        """
+        simulates Depth Bounded Depth First Search
+
+        if a path is found:
+            Path will be printed
+            self.found_goal = True will be set
+        
+        Assumptions:
+            Edges weights are not considered
+
+        Args:
+            start: A Node object for the starting Node
+            goal: A Node object for the goal Node
+            depthBound: An integer value of the depth limit we are exploring
+
+        Returns:
+            count: An integer value of number of nodes in the constructed path
+        """
         # init
         queue,visited=self.get_list('open'),self.get_list('closed')
         queue.append(start)
@@ -33,6 +61,7 @@ class dfid(AlgorithmBase):
         while queue:
             self.alg_iteration_start()
 
+            # get the HEAD of OPEN
             node = queue.pop(0)
             visited.append(node)
             nodeDepth = depthQueue.pop(0)
@@ -43,7 +72,14 @@ class dfid(AlgorithmBase):
                 self.found_goal=True
                 break
             
-            # iterate over children
+            """
+            If depth is under the bound:
+                iterate over children
+                if a child is not in OPEN or CLOSED:
+                    set the current node as it's parent
+                    insert the child into the OPEN
+                    insert the child's depth in the depthQueue
+            """
             if nodeDepth < depthBound:
                 index = 0
                 for neighbor in self.neighbors(node):
@@ -66,4 +102,5 @@ class dfid(AlgorithmBase):
         queue.clear()
         visited.clear()
         depthQueue.clear()
+
         return count
